@@ -44,7 +44,6 @@ int RayTracer::shade(const Ray *ray, const Hit *hit, bool shadow, Vec3f &ret) co
 		}
 	}
 	ret = pScene->getAmbientLight()*hit->getMaterial()->getDiffuseColor() + shadeColor;
-	//ret = shadeColor;
 	return 0;//succeed
 }
 Vec3f RayTracer::mirrorDirection(const Vec3f &normal, const Vec3f &incoming) {
@@ -91,18 +90,32 @@ bool RayTracer::transmittedDirection(const Vec3f &normal, const Vec3f &incoming,
 }
 
 Vec3f RayTracer::traceRay(Ray &ray, float tmin, int bounces, float weight,
-	float indexOfRefraction, Hit &hit) const {
+	float indexOfRefraction, int role, Hit &hit) const {
 	int whichSide = 0;//0: outside, 1: inside
 	Camera* cam = pScene->getCamera();
 	Group *gro = pScene->getGroup();
 	Hit h;
 	if (!gro->intersect(ray, h, tmin)) {
 		h.setNormal(Vec3f());//set normal to 0 vector to indicate no intersection
+		if (role == 2) {//reflective ray
+			RayTree::AddReflectedSegment(ray, 0, MAX_T);
+		}
+		else if (role == 3) {//refracted ray
+			RayTree::AddTransmittedSegment(ray, 0, MAX_T);
+		}
 		return pScene->getBackgroundColor();
 	}
 	else {
 		hit = h;
-		RayTree::SetMainSegment(ray, 0, h.getT());
+		if (role == 1) {//main segment
+			RayTree::SetMainSegment(ray, 0, h.getT());
+		}
+		else if (role == 2) {//reflective ray
+			RayTree::AddReflectedSegment(ray, 0, h.getT());
+		}
+		else if (role == 3) {//refracted ray
+			RayTree::AddTransmittedSegment(ray, 0, h.getT());
+		}
 		Material *pMat = h.getMaterial();
 		if (ray.getDirection().Dot3(h.getNormal()) > 0) {
 			Vec3f flippedNormal = h.getNormal();
@@ -120,28 +133,16 @@ Vec3f RayTracer::traceRay(Ray &ray, float tmin, int bounces, float weight,
 				Vec3f vRef = mirrorDirection(h.getNormal(), ray.getDirection());
 				Ray rRef(h.getIntersectionPoint(), vRef);
 				Hit h2;
-				refColor=traceRay(rRef, UNIT_EPS, bounces + 1, refWeight, indexOfRefraction, h2);
-				if (h2.getNormal() == Vec3f()) {
-					RayTree::AddReflectedSegment(rRef, 0, MAX_T);
-				}
-				else {
-					RayTree::AddReflectedSegment(rRef, 0, h2.getT());
-				}
+				refColor=traceRay(rRef, UNIT_EPS, bounces + 1, refWeight, indexOfRefraction, 2, h2);
 				refColor = refColor * pMat->getReflectiveColor();
 			}
-			if (refWeight > cutoff_weight) {
+			if (refraWeight > cutoff_weight) {
 				Vec3f vRefra;
 				float index_t = (whichSide) ? 1.0f : h.getMaterial()->getIndexOfRefraction();
 				if (transmittedDirection(h.getNormal(), ray.getDirection(), indexOfRefraction, index_t, vRefra)) {
 					Ray rRefra(h.getIntersectionPoint(), vRefra);
 					Hit h3;
-					refraColor = traceRay(rRefra, UNIT_EPS, bounces + 1, refraWeight, index_t, h3);
-					if (h3.getNormal() == Vec3f()) {
-						RayTree::AddTransmittedSegment(rRefra, 0, MAX_T);
-					}
-					else {
-						RayTree::AddTransmittedSegment(rRefra, 0, h3.getT());
-					}
+					refraColor = traceRay(rRefra, UNIT_EPS, bounces + 1, refraWeight, index_t, 3, h3);
 					refraColor = refraColor * pMat->getTransparentColor();
 				}
 			}
@@ -158,7 +159,7 @@ void RayTracer::traceToImage(Image& img) const {
 			Camera* cam = pScene->getCamera();
 			Ray r(cam->generateRay(uc));
 			Hit h;
-			pixColor=traceRay(r, cam->getTMin(), 0, 1.0f, 1.0f, h);
+			pixColor=traceRay(r, cam->getTMin(), 0, 1.0f, 1.0f, 1,h);
 			img.SetPixel(i, j, pixColor);
 		}
 	}

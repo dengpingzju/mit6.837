@@ -14,7 +14,7 @@ public:
 	static bool transmittedDirection(const Vec3f &normal, const Vec3f &incoming,
 		float index_i, float index_t, Vec3f &transmitted);
 	Vec3f traceRay(Ray &ray, float tmin, int bounces, float weight,
-		float indexOfRefraction, Hit &hit) const;
+		float indexOfRefraction, int role, Hit &hit) const;
 	void traceToImage(Image& img) const;
 private:
 	SceneParser *pScene;

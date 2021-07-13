@@ -55,7 +55,7 @@ void rayVisualization(float x, float y) {
 	Camera* cam = pSce_par->getCamera();
 	Ray r(cam->generateRay(uc));
 	Hit h;
-	pRt->traceRay(r, cam->getTMin(), 0, 1.0f, 1.0f, h);
+	pRt->traceRay(r, cam->getTMin(), 0, 1.0f, 1.0f, 1,h);
 }
 void parse_para(int argc, char **argv) {
 	ParamParser pp(argc, argv);
