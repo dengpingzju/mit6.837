@@ -1,0 +1,49 @@
+# depslib dependency file v1.0
+1582077432 source:d:\dengping\buffer\mit图形学\assignment0\assignment0\image.cpp
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"image.h"
+
+1582076800 d:\dengping\buffer\mit图形学\assignment0\assignment0\image.h
+	<assert.h>
+	"vectors.h"
+
+1582077453 d:\dengping\buffer\mit图形学\assignment0\assignment0\vectors.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<assert.h>
+
+1582099782 source:d:\dengping\buffer\mit图形学\assignment0\assignment0\main.cpp
+	<iostream>
+	"ifs.h"
+	<cstring>
+
+1582092323 d:\dengping\buffer\mit图形学\assignment0\assignment0\ifs.h
+	"matrix.h"
+	"image.h"
+	<cstdlib>
+	<iostream>
+
+1582077458 d:\dengping\buffer\mit图形学\assignment0\assignment0\matrix.h
+	<math.h>
+	<assert.h>
+	"vectors.h"
+
+1582077464 source:d:\dengping\buffer\mit图形学\assignment0\assignment0\matrix.cpp
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<string.h>
+	"matrix.h"
+	"vectors.h"
+
+1582099776 source:d:\dengping\buffer\mit图形学\assignment0\assignment0\ifs.cpp
+	"ifs.h"
+	"matrix.h"
+	<cstdio>
+	<ctime>
+	<cstdlib>
+

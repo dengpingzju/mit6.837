@@ -1,0 +1,341 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>6.837 Assignment 2</title>
+</head>
+
+<body tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/images/blbkgnd.gif" text="#000000" bgcolor="#FFFFFF" background="6.837%20Assignment%202_files/blbkgnd.gif">
+
+<h1>6.837 Intro to Computer Graphics<br>
+Assignment 2: Transformations &amp; Additional Primitives</h1>
+
+
+<p>
+In this assignment, you will add new primitives (planes and triangles)
+and affine transformations.  You will also implement a perspective
+camera, and two simple shading modes: normal visualization and diffuse
+shading.  For the normal visualization, you will simply display the
+absolute value of the coordinates of the normal vector as an <em>(r,
+g, b)</em> color.  For example, a normal pointing in the positive or
+negative <em>z</em> direction will be displayed as pure blue <em>(0,
+0, 1)</em>.  You should use black as the color for the background
+(undefined normal).
+
+</p><p>Diffuse shading is our first step toward modeling the interaction
+of light and materials.  Given the direction to the light <b>L</b> and
+the normal <b>N</b> we can compute the diffuse shading as a clamped
+dot product:
+
+</p><p>
+<table border="0">
+<tbody><tr><td width="20">&nbsp;</td><td><em>d</em></td><td> = <b>L <sup>.</sup> N</b> &nbsp;&nbsp;&nbsp;&nbsp;</td><td>if <b>L <sup>.</sup> N</b> &gt; 0</td></tr>
+<tr><td>&nbsp;         </td><td>&nbsp;         </td><td> = 0                       </td><td>otherwise                      </td></tr>
+</tbody></table>
+
+</p><p>
+If the visible object has color <em>c<sub>object</sub> = (r, g,
+b)</em>, and the light source has color <em>c<sub>light</sub> =
+(L<sub>r</sub>, L<sub>g</sub>, L<sub>b</sub>)</em>, then the pixel
+color is <em>c<sub>pixel</sub> = (rL<sub>r</sub>d, gL<sub>g</sub>d,
+bL<sub>b</sub>d)</em>.  Multiple light sources are handled by simply
+summing their contributions.  We can also include an <em>ambient</em>
+light with color c<sub>ambient</sub>, which can be very helpful in
+debugging.  Without it, parts facing away from the light source appear
+completely black.  Putting this all together, the formula is:
+
+</p><p>
+&nbsp;&nbsp;&nbsp;&nbsp; c<sub>pixel</sub> &nbsp;=&nbsp; c<sub>ambient</sub> * c<sub>object</sub> + SUM<sub>i</sub> [ clamped(<b>L<sub>i</sub> <sup>.</sup> N</b>) * c<sub>light<sub>i</sub></sub> * c<sub>object</sub> ]
+
+</p><p>
+Color vectors are multiplied term by term.  Note that if the ambient
+light color is <em>(1, 1, 1)</em> and the light source color is
+<em>(0, 0, 0)</em>, then you have the constant shading used in
+assignment 1.
+
+</p><h3>Tasks</h3>
+
+<ul>
+
+<p>
+</p><li>The <tt>Hit</tt> class has been modified to store the normal of
+    the intersection point.  Update your sphere intersection routine
+    to pass the normal to the <tt>Hit</tt>.
+<p>
+</p><ul>
+<li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/hit.h" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/hit.h">hit.h</a>
+</li></ul>
+
+<p>
+</p></li><li> Implement the new rendering mode, normal visualization.  Add code
+     to parse an additional command line option <tt>-normals
+     &lt;normal_file.tga&gt;</tt> to specify the output file for this
+     visualization (see examples below).
+
+<p>
+</p></li><li> Add diffuse shading.  We provide the pure virtual <tt>Light</tt>
+     class and a simple directional light source.  Scene lighting can
+     be accessed with the <tt>SceneParser::getLight()</tt> and
+     <tt>SceneParser::getAmbientLight()</tt> methods.  Use the
+     <tt>Light</tt> class method:
+
+<pre>   void getIllumination (const Vec3f &amp;p, Vec3f &amp;dir, Vec3f &amp;col); 
+</pre>
+
+
+<p> to find the illumination at a particular location in space.  p is
+    the intersection point that you want to shade, and the function
+    returns the normalized direction toward the light source in
+    <tt>dir</tt> and the light color and intensity in <tt>col</tt>.
+</p><p>
+</p><ul>
+<li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/light.h" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/light.h">light.h</a>
+</li></ul>
+
+<p>
+</p></li><li>In test scenes 5 &amp; 7 below, we've asked you to render the "wrong"
+    or "back" side of both a Sphere and a Triangle primitive.  Add the
+    <tt>-shade_back</tt> option to your raytracer.  When this option
+    is specified, we'd like you to treat both sides of your object
+    surfaces in the same manner.  This means you'll need to flip the
+    normal when the eye is on the "wrong" side of the surface (when
+    the dot product of the ray direction &amp; the normal is positive).
+    Do this normal flip just before you shade a pixel, not within the
+    object intersection code.  If the <tt>-shade_back</tt> flag is not
+    specified, you should shade back-facing surfaces differently, to
+    aid in debugging.  Back-facing surfaces must be detected to
+    implement refraction through translucent objects, and are often
+    not rendered at all for efficiency in real-time applications.
+    We'll see this again in upcoming lectures and assignments.
+
+<p>
+</p></li><li> Add a <tt>PerspectiveCamera</tt> class that derives from
+     <tt>Camera</tt>.  Choose your favorite internal camera
+     representation.  Similar to an orthographic camera, the scene
+     parser provides you with the center, direction, and up vectors.
+     But for a perspective camera, the field of view is specified with
+     an angle (as shown in the diagram).  
+
+<pre>   PerspectiveCamera(Vec3f ¢er, Vec3f &amp;direction, Vec3f &amp;up, float angle);
+</pre>
+
+<p>
+<img src="6.837%20Assignment%202_files/perspective_camera.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/perspective_camera.png">
+
+</p><p>Hint: In class, we often talk about a "virtual screen" in space.
+   You can calculate the location and extents of this "virtual screen"
+   using some simple trigonometry.  You can then interpolate over
+   points on the virtual screen in the same way you interpolated over
+   points on the screen for the orthographic camera.  Direction
+   vectors can then be calculated by subtracting the camera center
+   point from the screen point.  Don't forget to normalize!  In
+   contrast, if you interpolate over the camera angle to obtain your
+   direction vectors, your scene will look distorted - especially for
+   large camera angles, which will give the appearance of a fisheye
+   lens.
+
+</p><p>Note: the distance to the image plane and the size of the image
+   plane are unnecessary.  Why?
+
+</p><p>
+</p></li><li>Implement <tt>Plane</tt>, an infinite plane primitive derived from
+    <tt>Object3D</tt>.  Use the representation of your choice, but the
+    constructor is assumed to be:
+
+<pre> 
+   Plane(Vec3f &amp;normal, float d, Material *m); 
+</pre>
+
+<p><tt>d</tt> is the offset from the origin, meaning that the plane
+   equation is <b>P <sup>.</sup>  n</b> = d.  You can also implement other
+   constructors (e.g.  using 3 points).  Implement <tt>intersect</tt>,
+   and remember that you also need to update the normal stored by
+   <tt>Hit</tt>, in addition to the intersection distance <em>t</em>
+   and color.
+
+</p><p>
+</p></li><li>Implement a triangle primitive which also derives from
+    <tt>Object3D</tt>.  The constructor takes 3 vertices:
+
+<pre>   Triangle(Vec3f &amp;a, Vec3f &amp;b, Vec3f &amp;c, Material *m);
+</pre>
+
+<p> Use the method of your choice to implement the ray-triangle
+    intersection: general polygon with in-polygon test, barycentric
+    coordinates, etc.  We can compute the normal by taking the
+    cross-product of two edges, but note that the normal direction for
+    a triangle is ambiguous.  We'll use the usual convention that
+    counter-clockwise vertex ordering indicates the outward-facing
+    side.  If your renderings look incorrect, just flip the
+    cross-product to match the convention.
+
+</p><p>
+</p></li><li>Derive a subclass <tt>Transform</tt> from <tt>Object3D</tt>.
+    Similar to a <tt>Group</tt>, a <tt>Transform</tt> will store
+    a pointer to an <tt>Object3D</tt> (but only one, not an array).
+    The constructor of a <tt>Transform</tt> takes a 4x4 matrix as
+    input and a pointer to the <tt>Object3D</tt> modified by the
+    transformation:
+
+<pre>   Transform(Matrix &amp;m, Object3D *o);
+</pre>
+
+    The <tt>intersect</tt> routine will first transform the ray, then
+    delegate to the <tt>intersect</tt> routine of the contained
+    object.  Make sure to correctly transform the resulting normal
+    according to the rule seen in lecture.  You may choose to
+    normalize the direction of the transformed ray or leave it
+    un-normalized.  If you decide not to normalize the direction, you
+    might need to update some of your intersection code.
+
+<p>
+</p></li><li>Extra credit: Implement two different ray-triangle intersection
+    methods and compare; add cones or cylinders; implement
+    Constructive Solid Geometry (CSG), IFS, or non-linear cameras.
+    For CSG, you need to implement a new <tt>intersectAll</tt> method
+    for your <tt>Object3D</tt> classes.  This function returns
+    <em>all</em> of the intersections of the ray with the object, not
+    just the closest one.  For additional primitives such as cones and
+    cylinders, implement the simple case of axis-aligned primitives and
+    use transformations.
+
+</li></ul>
+
+<h3>Updated Files</h3>
+
+<ul>
+<li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene_parser.h" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene_parser.h">scene_parser.h</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene_parser.C" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene_parser.C">scene_parser.C</a>
+</li></ul>
+If you're interested, here's the <a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/grammar.html" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/grammar.html">scene
+description file grammar</a> used in this assignment.
+
+<p>
+You will need to edit the Makefile to include any .C files that you
+add to the project.
+
+
+</p><h3>Hints</h3>
+
+<ul>
+
+<li> Parse the arguments of the program in a separate function.  It
+     will make your code easier to read.
+  
+</li><li> Implement the normal visualization and diffuse shading before the
+     transformations.
+
+</li><li> Use the various rendering modes (normal, diffuse, distance) to
+     debug your code.  
+
+</li></ul>
+
+
+<h3>Input Files</h3>
+<ul>
+<li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_01_diffuse.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_01_diffuse.txt">scene2_01_diffuse.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_02_ambient.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_02_ambient.txt">scene2_02_ambient.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_03_colored_lights.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_03_colored_lights.txt">scene2_03_colored_lights.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_04_perspective.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_04_perspective.txt">scene2_04_perspective.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_05_inside_sphere.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_05_inside_sphere.txt">scene2_05_inside_sphere.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_06_plane.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_06_plane.txt">scene2_06_plane.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_07_sphere_triangles.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_07_sphere_triangles.txt">scene2_07_sphere_triangles.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_08_cube.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_08_cube.txt">scene2_08_cube.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_09_bunny_200.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_09_bunny_200.txt">scene2_09_bunny_200.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_10_bunny_1k.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_10_bunny_1k.txt">scene2_10_bunny_1k.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_11_squashed_sphere.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_11_squashed_sphere.txt">scene2_11_squashed_sphere.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_12_rotated_sphere.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_12_rotated_sphere.txt">scene2_12_rotated_sphere.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_13_rotated_squashed_sphere.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_13_rotated_squashed_sphere.txt">scene2_13_rotated_squashed_sphere.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_14_axes_cube.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_14_axes_cube.txt">scene2_14_axes_cube.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_15_crazy_transforms.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_15_crazy_transforms.txt">scene2_15_crazy_transforms.txt</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/scene2_16_t_scale.txt" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/scene2_16_t_scale.txt">scene2_16_t_scale.txt</a> (new! to test t scale)
+</li></ul>
+
+<h3>Triangle Meshes (.obj format)</h3>
+<p>
+</p><ul>
+<li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/cube.obj" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/cube.obj">cube.obj</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/bunny_200.obj" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/bunny_200.obj">bunny_200.obj</a>
+</li><li><a href="http://10.76.1.181/courses/training/mitF04/assignments/assignment2/bunny_1k.obj" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/bunny_1k.obj">bunny_1k.obj</a>
+</li></ul>
+
+<h3>Sample Results</h3>
+
+<p>
+
+</p><pre>raytracer -input scene2_01_diffuse.txt -size 200 200 -output output2_01.tga
+raytracer -input scene2_02_ambient.txt -size 200 200 -output output2_02.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_01.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_01.png">
+<img src="6.837%20Assignment%202_files/output2_02.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_02.png">
+<p>
+</p><pre>raytracer -input scene2_03_colored_lights.txt -size 200 200 -output output2_03.tga -normals normals2_03.tga
+</pre>
+<p>
+<img src="6.837%20Assignment%202_files/output2_03.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_03.png">
+<img src="6.837%20Assignment%202_files/normals2_03.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/normals2_03.png">
+</p><p>
+</p><pre>raytracer -input scene2_04_perspective.txt -size 200 200 -output output2_04.tga -normals normals2_04.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_04.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_04.png">
+<img src="6.837%20Assignment%202_files/normals2_04.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/normals2_04.png">
+<p>
+</p><pre>raytracer -input scene2_05_inside_sphere.txt -size 200 200 -output output2_05.tga -depth 9 11 depth2_05.tga -normals normals2_05.tga -shade_back
+raytracer -input scene2_05_inside_sphere.txt -size 200 200 -output output2_05_no_back.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_05.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_05.png">
+<img src="6.837%20Assignment%202_files/depth2_05.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/depth2_05.png">
+<img src="6.837%20Assignment%202_files/normals2_05.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/normals2_05.png">
+<img src="6.837%20Assignment%202_files/output2_05_no_back.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_05_no_back.png">
+<p>
+</p><pre>raytracer -input scene2_06_plane.txt -size 200 200 -output output2_06.tga -depth 8 20 depth2_06.tga -normals normals2_06.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_06.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_06.png">
+<img src="6.837%20Assignment%202_files/depth2_06.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/depth2_06.png">
+<img src="6.837%20Assignment%202_files/normals2_06.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/normals2_06.png">
+<p>
+</p><pre>raytracer -input scene2_07_sphere_triangles.txt -size 200 200 -output output2_07.tga -depth 9 11 depth2_07.tga -normals normals2_07.tga -shade_back
+raytracer -input scene2_07_sphere_triangles.txt -size 200 200 -output output2_07_no_back.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_07.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_07.png">
+<img src="6.837%20Assignment%202_files/depth2_07.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/depth2_07.png">
+<img src="6.837%20Assignment%202_files/normals2_07.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/normals2_07.png">
+<img src="6.837%20Assignment%202_files/output2_07_no_back.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_07_no_back.png">
+<p>
+</p><pre>raytracer -input scene2_08_cube.txt -size 200 200 -output output2_08.tga
+raytracer -input scene2_09_bunny_200.txt -size 200 200 -output output2_09.tga
+raytracer -input scene2_10_bunny_1k.txt -size 200 200 -output output2_10.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_08.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_08.png">
+<img src="6.837%20Assignment%202_files/output2_09.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_09.png">
+<img src="6.837%20Assignment%202_files/output2_10.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_10.png">
+<p>
+</p><pre>raytracer -input scene2_11_squashed_sphere.txt -size 200 200 -output output2_11.tga -normals normals2_11.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_11.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_11.png">
+<img src="6.837%20Assignment%202_files/normals2_11.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/normals2_11.png">
+<p>
+</p><pre>raytracer -input scene2_12_rotated_sphere.txt -size 200 200 -output output2_12.tga -normals normals2_12.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_12.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_12.png">
+<img src="6.837%20Assignment%202_files/normals2_12.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/normals2_12.png">
+<p>
+</p><pre>raytracer -input scene2_13_rotated_squashed_sphere.txt -size 200 200 -output output2_13.tga -normals normals2_13.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_13.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_13.png">
+<img src="6.837%20Assignment%202_files/normals2_13.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/normals2_13.png">
+<p>
+</p><pre>raytracer -input scene2_14_axes_cube.txt -size 200 200 -output output2_14.tga
+raytracer -input scene2_15_crazy_transforms.txt -size 200 200 -output output2_15.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_14.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_14.png">
+<img src="6.837%20Assignment%202_files/output2_15.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_15.png">
+<p>
+</p><pre>raytracer -input scene2_16_t_scale.txt -size 200 200 -output output2_16.tga -depth 2 7 depth2_16.tga
+</pre>
+<img src="6.837%20Assignment%202_files/output2_16.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/output2_16.png">
+<img src="6.837%20Assignment%202_files/depth2_16.png" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/assignment2/depth2_16.png">
+<p>
+See the main <a href="http://10.76.1.181/courses/training/mitF04/assignments/index.html" tppabs="http://groups.csail.mit.edu/graphics/classes/6.837/F04/assignments/index.html">Assignments Page</a> for submission information.
+</p><hr>
+
+
+</body></html>

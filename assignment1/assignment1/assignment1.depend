@@ -1,0 +1,196 @@
+# depslib dependency file v1.0
+1582625904 source:d:\dengping\buffer\mit图形学\assignment1\assignment1\main.cpp
+	<iostream>
+	<cstdio>
+	<algorithm>
+	"sphere.h"
+	"camera.h"
+	"scene_parser.h"
+	"image.h"
+	"group.h"
+
+1582077432 source:d:\dengping\buffer\mit图形学\assignment1\assignment1\image.cpp
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"image.h"
+
+1582076800 d:\dengping\buffer\mit图形学\assignment1\assignment1\image.h
+	<assert.h>
+	"vectors.h"
+
+1582077453 d:\dengping\buffer\mit图形学\assignment1\assignment1\vectors.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<assert.h>
+
+1582077464 source:d:\dengping\buffer\mit图形学\assignment1\assignment1\matrix.cpp
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<string.h>
+	"matrix.h"
+	"vectors.h"
+
+1582077458 d:\dengping\buffer\mit图形学\assignment1\assignment1\matrix.h
+	<math.h>
+	<assert.h>
+	"vectors.h"
+
+1582597438 source:d:\dengping\buffer\mit图形学\assignment1\assignment1\camera.cpp
+	"camera.h"
+	"ray.h"
+
+1582599081 d:\dengping\buffer\mit图形学\assignment1\assignment1\camera.h
+	"vectors.h"
+	"object3d.h"
+
+1582257071 source:d:\dengping\buffer\mit图形学\assignment1\assignment1\object3d.cpp
+	"object3d.h"
+
+1582598104 d:\dengping\buffer\mit图形学\assignment1\assignment1\object3d.h
+	<cstring>
+	"ray.h"
+	"hit.h"
+	"material.h"
+	"vectors.h"
+
+1582250008 d:\dengping\buffer\mit图形学\assignment1\assignment1\ray.h
+	<iostream>
+	"vectors.h"
+
+1582250013 d:\dengping\buffer\mit图形学\assignment1\assignment1\hit.h
+	"vectors.h"
+	"ray.h"
+
+1582250017 d:\dengping\buffer\mit图形学\assignment1\assignment1\material.h
+	"vectors.h"
+
+1582514092 source:d:\dengping\buffer\mit图形学\assignment1\assignment1\sphere.cpp
+	"sphere.h"
+	"ray.h"
+	<cstdlib>
+	<cmath>
+
+1582599948 d:\dengping\buffer\mit图形学\assignment1\assignment1\sphere.h
+	"object3d.h"
+
+1582626015 source:d:\dengping\buffer\mit图形学\assignment1\assignment1\group.cpp
+	"group.h"
+
+1582599204 d:\dengping\buffer\mit图形学\assignment1\assignment1\group.h
+	"object3d.h"
+
+1582254404 d:\dengping\buffer\mit图形学\assignment1\assignment1\scene_parser.h
+	"vectors.h"
+	<assert.h>
+
+1582623825 source:d:\dengping\buffer\mit图形学\assignment1\assignment1\scene_parser.cpp
+	<stdio.h>
+	<string.h>
+	"scene_parser.h"
+	"matrix.h"
+	"camera.h"
+	"material.h"
+	"object3d.h"
+	"group.h"
+	"sphere.h"
+
+1582597438 source:d:\dengping\buffer\mit_cg\assignment1\assignment1\camera.cpp
+	"camera.h"
+	"ray.h"
+
+1582599081 d:\dengping\buffer\mit_cg\assignment1\assignment1\camera.h
+	"vectors.h"
+	"object3d.h"
+
+1582077453 d:\dengping\buffer\mit_cg\assignment1\assignment1\vectors.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<assert.h>
+
+1582598104 d:\dengping\buffer\mit_cg\assignment1\assignment1\object3d.h
+	<cstring>
+	"ray.h"
+	"hit.h"
+	"material.h"
+	"vectors.h"
+
+1582250008 d:\dengping\buffer\mit_cg\assignment1\assignment1\ray.h
+	<iostream>
+	"vectors.h"
+
+1582250013 d:\dengping\buffer\mit_cg\assignment1\assignment1\hit.h
+	"vectors.h"
+	"ray.h"
+
+1582250017 d:\dengping\buffer\mit_cg\assignment1\assignment1\material.h
+	"vectors.h"
+
+1582626015 source:d:\dengping\buffer\mit_cg\assignment1\assignment1\group.cpp
+	"group.h"
+
+1582599204 d:\dengping\buffer\mit_cg\assignment1\assignment1\group.h
+	"object3d.h"
+
+1582077432 source:d:\dengping\buffer\mit_cg\assignment1\assignment1\image.cpp
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"image.h"
+
+1582076800 d:\dengping\buffer\mit_cg\assignment1\assignment1\image.h
+	<assert.h>
+	"vectors.h"
+
+1582626053 source:d:\dengping\buffer\mit_cg\assignment1\assignment1\main.cpp
+	<iostream>
+	<cstdio>
+	<algorithm>
+	"sphere.h"
+	"camera.h"
+	"scene_parser.h"
+	"image.h"
+	"group.h"
+
+1582599948 d:\dengping\buffer\mit_cg\assignment1\assignment1\sphere.h
+	"object3d.h"
+
+1582254404 d:\dengping\buffer\mit_cg\assignment1\assignment1\scene_parser.h
+	"vectors.h"
+	<assert.h>
+
+1582077464 source:d:\dengping\buffer\mit_cg\assignment1\assignment1\matrix.cpp
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<string.h>
+	"matrix.h"
+	"vectors.h"
+
+1582077458 d:\dengping\buffer\mit_cg\assignment1\assignment1\matrix.h
+	<math.h>
+	<assert.h>
+	"vectors.h"
+
+1582623825 source:d:\dengping\buffer\mit_cg\assignment1\assignment1\scene_parser.cpp
+	<stdio.h>
+	<string.h>
+	"scene_parser.h"
+	"matrix.h"
+	"camera.h"
+	"material.h"
+	"object3d.h"
+	"group.h"
+	"sphere.h"
+
+1582514092 source:d:\dengping\buffer\mit_cg\assignment1\assignment1\sphere.cpp
+	"sphere.h"
+	"ray.h"
+	<cstdlib>
+	<cmath>
+

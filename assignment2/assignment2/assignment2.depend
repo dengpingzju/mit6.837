@@ -1,0 +1,277 @@
+# depslib dependency file v1.0
+1584518453 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\camera.cpp
+	<cmath>
+	"camera.h"
+	"ray.h"
+
+1584467598 d:\dengping\buffer\mit_cg\assignment2\assignment2\camera.h
+	"vectors.h"
+	"object3d.h"
+
+1582077453 d:\dengping\buffer\mit_cg\assignment2\assignment2\vectors.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<assert.h>
+
+1584449283 d:\dengping\buffer\mit_cg\assignment2\assignment2\object3d.h
+	<cstring>
+	"ray.h"
+	"hit.h"
+	"material.h"
+	"vectors.h"
+
+1582250008 d:\dengping\buffer\mit_cg\assignment2\assignment2\ray.h
+	<iostream>
+	"vectors.h"
+
+1584107118 d:\dengping\buffer\mit_cg\assignment2\assignment2\hit.h
+	"vectors.h"
+	"ray.h"
+
+1582250017 d:\dengping\buffer\mit_cg\assignment2\assignment2\material.h
+	"vectors.h"
+
+1582626015 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\group.cpp
+	"group.h"
+
+1584461546 d:\dengping\buffer\mit_cg\assignment2\assignment2\group.h
+	"object3d.h"
+	<cstring>
+
+1582077432 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\image.cpp
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"image.h"
+
+1582076800 d:\dengping\buffer\mit_cg\assignment2\assignment2\image.h
+	<assert.h>
+	"vectors.h"
+
+1582077464 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\matrix.cpp
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<string.h>
+	"matrix.h"
+	"vectors.h"
+
+1582077458 d:\dengping\buffer\mit_cg\assignment2\assignment2\matrix.h
+	<math.h>
+	<assert.h>
+	"vectors.h"
+
+1582257071 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\object3d.cpp
+	"object3d.h"
+
+1584529814 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\sphere.cpp
+	"sphere.h"
+	"ray.h"
+	<cstdlib>
+	<cmath>
+
+1584449287 d:\dengping\buffer\mit_cg\assignment2\assignment2\sphere.h
+	"object3d.h"
+
+1584459411 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\plane.cpp
+	"plane.h"
+	<cmath>
+
+1584460148 d:\dengping\buffer\mit_cg\assignment2\assignment2\plane.h
+	"object3d.h"
+
+1584458030 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\com_para.cpp
+	"com_para.h"
+
+1584416713 d:\dengping\buffer\mit_cg\assignment2\assignment2\com_para.h
+
+1584458180 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\scene_parser.cpp
+	<stdio.h>
+	<string.h>
+	"scene_parser.h"
+	"matrix.h"
+	"camera.h"
+	"light.h"
+	"material.h"
+	"object3d.h"
+	"group.h"
+	"sphere.h"
+	"plane.h"
+	"triangle.h"
+	"transform.h"
+
+1584107140 d:\dengping\buffer\mit_cg\assignment2\assignment2\scene_parser.h
+	"vectors.h"
+	<assert.h>
+
+1584107128 d:\dengping\buffer\mit_cg\assignment2\assignment2\light.h
+	"vectors.h"
+	"object3d.h"
+
+1584460168 d:\dengping\buffer\mit_cg\assignment2\assignment2\triangle.h
+	"object3d.h"
+
+1584460158 d:\dengping\buffer\mit_cg\assignment2\assignment2\transform.h
+	"object3d.h"
+	"matrix.h"
+
+1584523789 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\triangle.cpp
+	"triangle.h"
+
+1584530066 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\main.cpp
+	<iostream>
+	<cstring>
+	"hit.h"
+	"scene_parser.h"
+	"image.h"
+	"material.h"
+	"light.h"
+	"group.h"
+	"camera.h"
+	"object3d.h"
+	"triangle.h"
+
+1584528641 source:d:\dengping\buffer\mit_cg\assignment2\assignment2\transform.cpp
+	"transform.h"
+	"matrix.h"
+
+1584518453 source:d:\dengping\course\mit_cg\assignment2\assignment2\camera.cpp
+	<cmath>
+	"camera.h"
+	"ray.h"
+
+1584467598 d:\dengping\course\mit_cg\assignment2\assignment2\camera.h
+	"vectors.h"
+	"object3d.h"
+
+1582077453 d:\dengping\course\mit_cg\assignment2\assignment2\vectors.h
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<assert.h>
+
+1584449283 d:\dengping\course\mit_cg\assignment2\assignment2\object3d.h
+	<cstring>
+	"ray.h"
+	"hit.h"
+	"material.h"
+	"vectors.h"
+
+1582250008 d:\dengping\course\mit_cg\assignment2\assignment2\ray.h
+	<iostream>
+	"vectors.h"
+
+1584107118 d:\dengping\course\mit_cg\assignment2\assignment2\hit.h
+	"vectors.h"
+	"ray.h"
+
+1582250017 d:\dengping\course\mit_cg\assignment2\assignment2\material.h
+	"vectors.h"
+
+1584458030 source:d:\dengping\course\mit_cg\assignment2\assignment2\com_para.cpp
+	"com_para.h"
+
+1584416713 d:\dengping\course\mit_cg\assignment2\assignment2\com_para.h
+
+1582626015 source:d:\dengping\course\mit_cg\assignment2\assignment2\group.cpp
+	"group.h"
+
+1584461546 d:\dengping\course\mit_cg\assignment2\assignment2\group.h
+	"object3d.h"
+	<cstring>
+
+1582077432 source:d:\dengping\course\mit_cg\assignment2\assignment2\image.cpp
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"image.h"
+
+1582076800 d:\dengping\course\mit_cg\assignment2\assignment2\image.h
+	<assert.h>
+	"vectors.h"
+
+1584530176 source:d:\dengping\course\mit_cg\assignment2\assignment2\main.cpp
+	<iostream>
+	<cstring>
+	"hit.h"
+	"scene_parser.h"
+	"image.h"
+	"material.h"
+	"light.h"
+	"group.h"
+	"camera.h"
+	"object3d.h"
+	"triangle.h"
+
+1584107140 d:\dengping\course\mit_cg\assignment2\assignment2\scene_parser.h
+	"vectors.h"
+	<assert.h>
+
+1584107128 d:\dengping\course\mit_cg\assignment2\assignment2\light.h
+	"vectors.h"
+	"object3d.h"
+
+1584460168 d:\dengping\course\mit_cg\assignment2\assignment2\triangle.h
+	"object3d.h"
+
+1582077464 source:d:\dengping\course\mit_cg\assignment2\assignment2\matrix.cpp
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	<string.h>
+	"matrix.h"
+	"vectors.h"
+
+1582077458 d:\dengping\course\mit_cg\assignment2\assignment2\matrix.h
+	<math.h>
+	<assert.h>
+	"vectors.h"
+
+1582257071 source:d:\dengping\course\mit_cg\assignment2\assignment2\object3d.cpp
+	"object3d.h"
+
+1584459411 source:d:\dengping\course\mit_cg\assignment2\assignment2\plane.cpp
+	"plane.h"
+	<cmath>
+
+1584460148 d:\dengping\course\mit_cg\assignment2\assignment2\plane.h
+	"object3d.h"
+
+1584458180 source:d:\dengping\course\mit_cg\assignment2\assignment2\scene_parser.cpp
+	<stdio.h>
+	<string.h>
+	"scene_parser.h"
+	"matrix.h"
+	"camera.h"
+	"light.h"
+	"material.h"
+	"object3d.h"
+	"group.h"
+	"sphere.h"
+	"plane.h"
+	"triangle.h"
+	"transform.h"
+
+1584449287 d:\dengping\course\mit_cg\assignment2\assignment2\sphere.h
+	"object3d.h"
+
+1584460158 d:\dengping\course\mit_cg\assignment2\assignment2\transform.h
+	"object3d.h"
+	"matrix.h"
+
+1584529814 source:d:\dengping\course\mit_cg\assignment2\assignment2\sphere.cpp
+	"sphere.h"
+	"ray.h"
+	<cstdlib>
+	<cmath>
+
+1584528641 source:d:\dengping\course\mit_cg\assignment2\assignment2\transform.cpp
+	"transform.h"
+	"matrix.h"
+
+1584523789 source:d:\dengping\course\mit_cg\assignment2\assignment2\triangle.cpp
+	"triangle.h"
+
