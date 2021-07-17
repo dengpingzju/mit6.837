@@ -1,0 +1,21 @@
+﻿  RayTracer.cpp
+  camera.cpp
+  checkerboard.cpp
+  glCanvas.cpp
+  grid.cpp
+  group.cpp
+  main.cpp
+  material.cpp
+  object3d.cpp
+  plane.cpp
+  scene_parser.cpp
+d:\dengping\course\mit_cg\assignment6\assignment6\src\scene_parser.cpp(140): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\dengping\course\mit_cg\assignment6\assignment6\src\scene_parser.cpp(640): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\dengping\course\mit_cg\assignment6\assignment6\src\scene_parser.cpp(643): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\dengping\course\mit_cg\assignment6\assignment6\src\scene_parser.cpp(646): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\dengping\course\mit_cg\assignment6\assignment6\src\scene_parser.cpp(652): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  sphere.cpp
+  transform.cpp
+  triangle.cpp
+  Generating Code...
+  assignment6.vcxproj -> D:\dengping\course\mit_CG\assignment6\Debug\assignment6.exe
