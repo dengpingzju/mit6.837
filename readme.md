@@ -12,3 +12,11 @@ Note that the last test case of the logo of mit 6.837 requires a lot of time to 
 
 
 
+Assignment 7
+
+the test cases of scene7_01_sphere_triangle.txt given on the assignment webpage are apparently not correct, since the pictures can never be 12*12 resolution; but the results are quite similar, and alleviate the phenomenon of aliasing. The 6.837 logo test case requires over 8 hours to render based my algorithm and machine. And the tent filter is not the one mentioned in Tiger book(separable 2d tent filter, but just a linear function rotate around to form a cone).
+
+
+
+
+
