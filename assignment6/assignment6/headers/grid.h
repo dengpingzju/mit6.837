@@ -25,6 +25,7 @@ public:
 	void nextCell();
 	//don't go inside objects in scene
 	bool checkHit(Hit &h);
+	bool checkHitAny(Hit &h, float tmin);
 	bool checkHitObjInCell(Hit &h, float tmin);
 
 private:
@@ -51,6 +52,21 @@ private:
 
 class Grid : public Object3D {
 public:
+	//----------only for debugging------------
+	void printCellMaxNum() {
+		int ans = 0;
+		for (int i = 0; i < nx; i++) {
+			for (int j = 0; j < ny; j++) {
+				for (int k = 0; k < nz; k++) {
+					int num = getObjNum(i, j, k);
+					if (num > ans) ans = num;
+				}
+			}
+		}
+		std::cout << "maximum number of objects in a single cell: " << ans << endl;
+	}
+
+	//----------------------------------------
 	Grid(BoundingBox *bb, int nx, int ny, int nz);
 	//no range check!
 	PobjVec* getCellObj(int i, int j, int k) const {

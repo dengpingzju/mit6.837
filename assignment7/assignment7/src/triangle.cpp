@@ -29,9 +29,9 @@ bool Triangle::intersect(const Ray &r, Hit &h, float tmin) const {
     for (int i=0;i<3;i++) {
         int k=i;
         for (int j=i+1;j<3;j++) {
-            if (fabs(m[j][i])>fabs(m[k][i])) k=j;
+            if (my_fabsf(m[j][i])>my_fabsf(m[k][i])) k=j;
         }
-        if (fabs(m[k][i])<EPS) return false;
+        if (my_fabsf(m[k][i])<EPS) return false;
         if (k!=i) {
             for (int j=0;j<4;j++) {
                 float tmp=m[i][j];

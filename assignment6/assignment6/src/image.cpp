@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "image.h"
+#include "object3d.h"
 
 // ====================================================================
 // ====================================================================
@@ -183,9 +184,9 @@ Image* Image::Compare(Image* img1, Image* img2) {
     for (int y = 0; y < img1->Height(); y++) {
       Vec3f color1 = img1->GetPixel(x, y);
       Vec3f color2 = img2->GetPixel(x, y);
-      Vec3f color3 = Vec3f(fabs(color1.r() - color2.r()),
-			   fabs(color1.g() - color2.g()),
-			   fabs(color1.b() - color2.b()));
+      Vec3f color3 = Vec3f(my_fabsf(color1.r() - color2.r()),
+			   my_fabsf(color1.g() - color2.g()),
+			   my_fabsf(color1.b() - color2.b()));
       img3->SetPixel(x, y, color3);
     }
   }

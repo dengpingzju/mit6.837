@@ -11,8 +11,8 @@ float TentFilter::getWeight(float x, float y) {
 	else return 1 - len / radius;
 	/*
 	//separatable 2d tent filter
-	x = fabs(x);
-	y = fabs(y);
+	x = my_fabsf(x);
+	y = my_fabsf(y);
 	float tmp1 = 1 - x / this->radius;
 	float tmp2 = 1 - y / this->radius;
 	if (tmp1 >= 0 && tmp2 >= 0) return tmp1 * tmp2;

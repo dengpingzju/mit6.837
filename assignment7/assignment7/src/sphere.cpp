@@ -39,7 +39,7 @@ bool Sphere::intersectShadowRay(const Ray &r, Hit &h, float tmin,float tmax) con
 	else return false;
 }
 bool Sphere::checkRayDirection(const Ray& r) {
-    if (fabs(r.getDirection().Length()-1)>UNIT_EPS) return false;
+    if (my_fabsf(r.getDirection().Length()-1)>UNIT_EPS) return false;
     else return true;
 }
 

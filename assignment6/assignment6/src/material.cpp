@@ -223,6 +223,7 @@ Wood::Wood(Matrix *m, Material *mat1, Material *mat2, int octaves, float frequen
 	noise = Noise(m, mat1, mat2, octaves);
 	this->frequency = frequency;
 	this->amplitude = amplitude;
+	this->m = m;
 	this->mat[0] = mat1;
 	this->mat[1] = mat2;
 	this->veinDir = woodTextOri;
@@ -245,22 +246,27 @@ float Wood::getM(Vec3f v) const {
 	return sin(frequency * tmp + amplitude * noise.getN(v))/2+0.5;
 }
 Vec3f Wood::getDiffuseColor(Vec3f v) const {
+	m->Transform(v);
 	float t = getM(v);
 	return mat[0]->getDiffuseColor()*t + mat[1]->getDiffuseColor()*(1 - t);
 }
 Vec3f Wood::getSpecularColor(Vec3f v) const {
+	m->Transform(v);
 	float t = getM(v);
 	return mat[0]->getSpecularColor()*t + mat[1]->getSpecularColor()*(1 - t);
 }
 Vec3f Wood::getReflectiveColor(Vec3f v) const {
+	m->Transform(v);
 	float t = getM(v);
 	return mat[0]->getReflectiveColor()*t + mat[1]->getReflectiveColor()*(1 - t);
 }
 Vec3f Wood::getTransparentColor(Vec3f v) const {
+	m->Transform(v);
 	float t = getM(v);
 	return mat[0]->getTransparentColor()*t + mat[1]->getTransparentColor()*(1 - t);
 }
 float Wood::getIndexOfRefraction(Vec3f v) const {
+	m->Transform(v);
 	float t = getM(v);
 	return mat[0]->getIndexOfRefraction()*t + mat[1]->getIndexOfRefraction()*(1 - t);
 }
@@ -268,7 +274,9 @@ float Wood::getIndexOfRefraction(Vec3f v) const {
 Vec3f Wood::Shade(const Ray &ray, const Hit &hit, const Vec3f &dirToLight,
 	const Vec3f &lightColor) const {
 
-	float t = getM(hit.getIntersectionPoint());
+	Vec3f v = hit.getIntersectionPoint();
+	m->Transform(v);
+	float t = getM(v);
 	return mat[0]->Shade(ray, hit, dirToLight, lightColor)*t
 		+ mat[1]->Shade(ray, hit, dirToLight, lightColor)*(1 - t);
 }

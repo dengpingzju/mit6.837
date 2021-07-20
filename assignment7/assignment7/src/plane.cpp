@@ -11,7 +11,7 @@ Plane::Plane(Vec3f &normal, float d, Material *m) {
 bool Plane::intersect(const Ray &r, Hit &h, float tmin) const {
 	RayTracingStats::IncrementNumIntersections();
     float co=r.getDirection().Dot3(normal);
-    if (fabs(co)<EPS) {
+    if (my_fabsf(co)<EPS) {
         //parallel or along the plane
         return false;
     }
@@ -31,7 +31,7 @@ void Plane::paint() {
 	Vec3f bas1(0.0f,0.0f,1.0f), bas2;
 	Vec3f temp1;
 	Vec3f::Cross3(temp1, bas1, normal);
-	if (fabs(temp1.Length()) < EPS) bas1 = Vec3f(0, 1, 0);
+	if (my_fabsf(temp1.Length()) < EPS) bas1 = Vec3f(0, 1, 0);
 	Vec3f::Cross3(bas1, bas1, normal);
 	bas1.Normalize();
 	Vec3f::Cross3(bas2, bas1, normal);

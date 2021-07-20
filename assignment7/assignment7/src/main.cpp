@@ -86,6 +86,7 @@ int main(int argc, char **argv) {
 	return 0;
 }
 void doRayTracing() {
+	if (!render_samples && !render_filter&&!output_file[0]) return;
 	Film *film = pRt->traceToFilm();
 	if (render_samples) {
 		film->renderSamples(render_samples_file, zoom_factor);

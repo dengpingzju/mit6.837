@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include "matrix.h"
+#include "object3d.h"
 #include "vectors.h"
 
 
@@ -85,7 +86,7 @@ int Matrix::Inverse(Matrix &m, float epsilon) const {
 
   float det = det4x4(a1,a2,a3,a4,b1,b2,b3,b4,c1,c2,c3,c4,d1,d2,d3,d4);
 
-  if (fabs(det) < epsilon) {
+  if (my_fabsf(det) < epsilon) {
     printf ("Matrix::Inverse --- singular matrix, can't invert!\n");
     assert(0);
     return 0;
@@ -320,7 +321,7 @@ void Matrix::Write(FILE *F) const {
   for (int y = 0; y < 4; y++) {
     for (int x = 0; x < 4; x++) {
       float tmp = data[y][x];
-      if (fabs(tmp) < 0.00001) tmp = 0;
+      if (my_fabsf(tmp) < 0.00001) tmp = 0;
       fprintf (F, "%12.6f ", tmp);
     }
     fprintf (F,"\n"); 
@@ -334,7 +335,7 @@ void Matrix::Write3x3(FILE *F) const {
     for (int x = 0; x < 4; x++) {
       if (x == 2) continue;
       float tmp = data[y][x];
-      if (fabs(tmp) < 0.00001) tmp = 0;
+      if (my_fabsf(tmp) < 0.00001) tmp = 0;
       fprintf (F, "%12.6f ", tmp);
     }
     fprintf (F,"\n"); 

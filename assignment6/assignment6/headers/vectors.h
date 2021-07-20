@@ -155,7 +155,7 @@ public:
     d1 = data[1];
     d2 = data[2]; }
   float operator[](int i) const { 
-    assert (i >= 0 && i < 3); 
+    //assert (i >= 0 && i < 3); 
     return data[i]; }
   float x() const { return data[0]; }
   float y() const { return data[1]; }

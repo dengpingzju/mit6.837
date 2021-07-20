@@ -1,6 +1,8 @@
 #include "myutil.h"
 #include <map>
 
+extern int visualize_grid;
+
 MarchingInfo::MarchingInfo(const Ray &r, const Grid &grid, float tmin,float tmax) {
 	ray = r;
 	this->tmax = tmax;
@@ -23,7 +25,7 @@ MarchingInfo::MarchingInfo(const Ray &r, const Grid &grid, float tmin,float tmax
 			sign[i] = 0;
 		}
 		else {
-			tmp[i] = dia[i] / fabs(dir[i]);
+			tmp[i] = dia[i] / my_fabsf(dir[i]);
 			if (dir[i] > 0) sign[i] = 1;
 			else sign[i] = -1;
 		}
@@ -44,8 +46,10 @@ MarchingInfo::MarchingInfo(const Ray &r, const Grid &grid, float tmin,float tmax
 		//from outside hit the sell, set t as it is
 		t = h.getT();
 		normal = h.getNormal();
-		grid.addEnteredFaceByNormal(cellIndex[0], cellIndex[1], cellIndex[2], normal);
-		grid.addHitCellFaces(cellIndex[0], cellIndex[1], cellIndex[2]);
+		if (visualize_grid) {
+			grid.addEnteredFaceByNormal(cellIndex[0], cellIndex[1], cellIndex[2], normal);
+			grid.addHitCellFaces(cellIndex[0], cellIndex[1], cellIndex[2]);
+		}
 	}
 	Vec3f center = grid.getCellCenter(cellIndex[0], cellIndex[1], cellIndex[2]);
 	Vec3f adj = Vec3f(sign[0], sign[1], sign[2])*dia*0.5f + center;
@@ -120,8 +124,10 @@ void MarchingInfo::nextCell() {
 		hasInter = -2;
 	}
 	else {
-		pGrid->addEnteredFaceByNormal(cellIndex[0], cellIndex[1], cellIndex[2], normal);
-		pGrid->addHitCellFaces(cellIndex[0], cellIndex[1], cellIndex[2]);
+		if (visualize_grid) {
+			pGrid->addEnteredFaceByNormal(cellIndex[0], cellIndex[1], cellIndex[2], normal);
+			pGrid->addHitCellFaces(cellIndex[0], cellIndex[1], cellIndex[2]);
+		}
 	}
 }
 
@@ -143,6 +149,28 @@ bool MarchingInfo::checkHit(Hit &h) {
 		h.setMaterial(pm_cell);
 		return true;
 	}
+}
+
+bool MarchingInfo::checkHitAny(Hit &h, float tmin) {
+	float local_EPS = 1e-5;
+	if (hasInter != 1) return false;
+	if (pGrid->isEmptyCell(cellIndex[0], cellIndex[1], cellIndex[2])) {
+		return false;//empty cell, no hit
+	}
+	else {
+		//cell not empty, hit this cell
+		//go on to check whether intersect with objects in the cell
+		PobjVec *cellObj = pGrid->getCellObj(cellIndex[0], cellIndex[1], cellIndex[2]);
+		bool hasIntersection;
+		for (int i = 0; i < (int)cellObj->size(); i++) {
+			hasIntersection = cellObj->at(i)->intersect(ray, h, tmin);
+			if (hasIntersection) return true;
+		}
+		return false;
+	}
+	//never come to here, leave the code to get rid of warnings of compiler
+	cerr << "Unexpected error in MarchingInfo::checkHitObjInCell()";
+	return false;
 }
 
 bool MarchingInfo::checkHitObjInCell(Hit &h,float tmin) {
@@ -373,13 +401,13 @@ void Grid::getIndexFromCoord(Vec3f coord, int &i, int &j, int &k) const {
 	Vec3f dia = maxPos - minPos;
 	Vec3f tmp = coord - minPos;
 	for (int i = 0; i < 3; i++) {
-		if (fabs(tmp[i]) < 1e-5) {
+		if (my_fabsf(tmp[i]) < 1e-5) {
 			coord.SetIndex(i, coord[i] + 1e-5);
 		}
 	}
 	tmp = coord - maxPos;
 	for (int i = 0; i < 3; i++) {
-		if (fabs(tmp[i]) < 1e-5) {
+		if (my_fabsf(tmp[i]) < 1e-5) {
 			coord.SetIndex(i, coord[i] - 1e-5);
 		}
 	}
@@ -464,10 +492,20 @@ bool Grid::intersectWithObj(const Ray &r, Hit &h, float tmin,float tmax) const {
 }
 
 bool Grid::intersectShadowRay(const Ray &r, Hit &h, float tmin, float tmax) const {
-	if (intersect(r, h, tmin)) {
-		return h.getT() < tmax;
+	MarchingInfo march;
+	initializeRayMarch(march, r, tmin, tmax);
+	while (1) {
+		if (march.checkHitAny(h, tmin)) {
+			return true;
+		}
+		march.nextCell();
+		if (march.hasEnded()) {
+			return false;
+		}
 	}
-	else return false;
+	//never come to here
+	cerr << "Unexpected error in Grid::intersectWithObj()" << endl;
+	return false;
 }
 
 void Grid::addEnteredFaceByNormal(int i, int j, int k, Vec3f normal) const {

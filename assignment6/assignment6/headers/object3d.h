@@ -22,6 +22,11 @@ enum PrimitiveType {
 	PT_PLANE,
 };
 
+inline float my_fabsf(float x) {
+	if (x < 0) return -x;
+	else return x;
+}
+
 class Object3D {
 public:
     Object3D() {

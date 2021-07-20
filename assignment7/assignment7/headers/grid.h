@@ -25,6 +25,7 @@ public:
 	void nextCell();
 	//don't go inside objects in scene
 	bool checkHit(Hit &h);
+	bool checkHitAny(Hit &h, float tmin);
 	bool checkHitObjInCell(Hit &h, float tmin);
 
 private:

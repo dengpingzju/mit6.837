@@ -36,7 +36,18 @@ int RayTracer::shade(const Ray *ray, const Hit *hit, bool shadow, Vec3f &ret) co
 		Ray rToLi(hit->getIntersectionPoint(), dir);
 		if (shadow) {
 			RayTracingStats::IncrementNumShadowRays();
-			if (!intersectShadowRay(rToLi, h, UNIT_EPS, distToLight)) {
+			bool isOccluded = false;
+			if (accelerate) {
+				//use grid to accelerate casting of shadow rays
+				//important assumption: light source is outside of the boundingbox of 
+				//the object, so it's enough to exit as soon as the ray enter some 
+				//cell containing objects in it
+				isOccluded=grid->intersectShadowRay(rToLi, h, UNIT_EPS, distToLight);
+			}
+			else {
+				isOccluded = intersectShadowRay(rToLi, h, UNIT_EPS, distToLight);
+			}
+			if (!isOccluded) {
 				shadeColor += hit->getMaterial()->Shade(*ray, *hit, dir, cli);
 			}
 		}
@@ -60,7 +71,6 @@ int RayTracer::shade(const Ray *ray, const Hit *hit, bool shadow, Vec3f &ret) co
 		}
 	}
 	ret = pScene->getAmbientLight()*hit->getMaterial()->getDiffuseColor(hit->getIntersectionPoint()) + shadeColor;
-	//ret = shadeColor;
 	return 0;//succeed
 }
 Vec3f RayTracer::mirrorDirection(const Vec3f &normal, const Vec3f &incoming) {
